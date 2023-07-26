@@ -1,0 +1,57 @@
+# Pipeline Configuration
+stages:
+  # Stage 1: Data Ingestion
+  data_ingestion:
+    cmd: python src/cnnClassifier/pipeline/stage_01_data_ingestion.py  # Command to execute the data ingestion script
+    deps:
+      - src/cnnClassifier/pipeline/stage_01_data_ingestion.py  # Dependency on the data ingestion script
+      - config/config.yaml  # Dependency on the configuration file
+    outs:
+      - artifacts/data_ingestion/Chicken-fecal-images  # Output directory for the data ingestion stage
+
+  # Stage 2: Prepare Base Model
+  prepare_base_model:
+    cmd: python src/cnnClassifier/pipeline/stage_02_prepare_base_model.py  # Command to execute the prepare base model script
+    deps:
+      - src/cnnClassifier/pipeline/stage_02_prepare_base_model.py  # Dependency on the prepare base model script
+      - config/config.yaml  # Dependency on the configuration file
+    params:
+      - IMAGE_SIZE  # Parameters to pass to the prepare base model script
+      - INCLUDE_TOP
+      - CLASSES
+      - WEIGHTS
+      - LEARNING_RATE
+    outs:
+      - artifacts/prepare_base_model  # Output directory for the prepare base model stage
+
+  # Stage 3: Training
+  training:
+    cmd: python src/cnnClassifier/pipeline/stage_03_training.py  # Command to execute the training script
+    deps:
+      - src/cnnClassifier/pipeline/stage_03_training.py  # Dependency on the training script
+      - src/cnnClassifier/components/prepare_callbacks.py  # Dependency on the prepare callbacks script
+      - config/config.yaml  # Dependency on the configuration file
+      - artifacts/data_ingestion/Chicken-fecal-images  # Dependency on the data ingestion output
+      - artifacts/prepare_base_model  # Dependency on the prepare base model output
+    params:
+      - IMAGE_SIZE  # Parameters to pass to the training script
+      - EPOCHS
+      - BATCH_SIZE
+      - AUGMENTATION
+    outs:
+      - artifacts/training/model.h5  # Output file for the trained model
+
+  # Stage 4: Evaluation
+  evaluation:
+    cmd: python src/cnnClassifier/pipeline/stage_04_evaluation.py  # Command to execute the evaluation script
+    deps:
+      - src/cnnClassifier/pipeline/stage_04_evaluation.py  # Dependency on the evaluation script
+      - config/config.yaml  # Dependency on the configuration file
+      - artifacts/data_ingestion/Chicken-fecal-images  # Dependency on the data ingestion output
+      - artifacts/training/model.h5  # Dependency on the trained model
+    params:
+      - IMAGE_SIZE  # Parameters to pass to the evaluation script
+      - BATCH_SIZE
+    metrics:
+      - scores.json:
+          cache: false  # Metrics to save, with caching option disabled for scores.json

@@ -1,0 +1,28 @@
+# YAML Configuration File for Deep Learning Project Artifacts
+
+# Root directory for storing all artifacts
+artifacts_root: artifacts
+
+# Data Ingestion Configuration
+data_ingestion:
+  root_dir: artifacts/data_ingestion              # Root directory for data ingestion artifacts
+  source_URL: https://github.com/ddthang86/chicken-fecal-images/raw/main/Chicken-fecal-images.zip  # Source URL for the data
+  local_data_file: artifacts/data_ingestion/data.zip        # Local path to store the downloaded data file
+  unzip_dir: artifacts/data_ingestion                      # Directory to unzip the downloaded data
+
+# Prepare Base Model Configuration
+prepare_base_model:
+  root_dir: artifacts/prepare_base_model          # Root directory for preparing the base model artifacts
+  base_model_path: artifacts/prepare_base_model/base_model.h5  # Path to the original base model file
+  updated_base_model_path: artifacts/prepare_base_model/base_model_updated.h5  # Path to the updated base model file
+
+# Prepare Callbacks Configuration
+prepare_callbacks:
+  root_dir: artifacts/prepare_callbacks          # Root directory for preparing the callbacks artifacts
+  tensorboard_root_log_dir: artifacts/prepare_callbacks/tensorboard_log_dir  # Directory for TensorBoard log files
+  checkpoint_model_filepath: artifacts/prepare_callbacks/checkpoint_dir/model.h5  # Path to save the model checkpoints
+
+# Training Configuration
+training:
+  root_dir: artifacts/training                   # Root directory for storing training artifacts
+  trained_model_path: artifacts/training/model.h5  # Path to save the trained model file
