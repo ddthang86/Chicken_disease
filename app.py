@@ -45,5 +45,5 @@ def predictRoute():
 if __name__ == "__main__":
     clApp = ClientApp()  # Create a ClientApp object to manage the prediction pipeline
     # app.run(host='0.0.0.0', port=8080) # Run the app on local host (commented out)
-    # app.run(host='0.0.0.0', port=8080) # Run the app on AWS (commented out)
-    app.run(host='0.0.0.0', port=80)  # Run the app on Azure
+    app.run(host='0.0.0.0', port=8080) # Run the app on AWS (commented out)
+    # app.run(host='0.0.0.0', port=80)  # Run the app on Azure
