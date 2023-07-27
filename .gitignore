@@ -160,4 +160,8 @@ cython_debug/
 #.idea/
 .artifacts/
 artifacts/
+<<<<<<< HEAD
 .artifacts
+=======
+.artifacts
+>>>>>>> 541df0eaee67a89a16d825ac99b6b65e2df168bc
